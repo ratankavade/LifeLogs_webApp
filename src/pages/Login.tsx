@@ -2,6 +2,7 @@ import wallpaper from "../assets/wallpaper.png"
 import icon from "../assets/icon.png"
 import { useState } from "react"
 import api from "../app/axios";
+import { Link } from "@tanstack/react-router";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -12,6 +13,8 @@ const Login = () => {
             const response = await api.post("/login", 
                 {email, password}
             );
+            setEmail("");
+            setPassword("");
         } catch(err) {
             console.error(err)
         }
@@ -41,7 +44,7 @@ const Login = () => {
                 </div>
                 <div className='text-center'>
                     <p className='inline text-xs text-gray-400'>Don't have an account? </p>
-                    <a className="inline link link-accent text-xs">Create account</a>
+                    <Link to="/register" className="inline link link-accent text-xs">Create account</Link>
                 </div>
             </div>
       </div>
