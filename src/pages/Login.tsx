@@ -2,11 +2,15 @@ import wallpaper from "../assets/wallpaper.png"
 import icon from "../assets/icon.png"
 import { useState } from "react"
 import api from "../app/axios";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { useDispatch } from "react-redux";
+import { addUser } from "../store/slices/userSlice";
 
 const Login = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("pqr@gmail.com");
+    const [password, setPassword] = useState("Pqr@123");
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleLogin = async() => {
         try{ 
@@ -15,6 +19,9 @@ const Login = () => {
             );
             setEmail("");
             setPassword("");
+            navigate({to: "/expences"})
+            return dispatch(addUser(response.data));
+            
         } catch(err) {
             console.error(err)
         }

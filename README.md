@@ -9,3 +9,6 @@
 - install axios
 - request api call for login api from frontend to backend server
 - set cookies in browser cookies
+- design and develop register screen 
+- integrate register api
+- create common toast alert message component
