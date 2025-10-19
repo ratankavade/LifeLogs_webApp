@@ -16,7 +16,9 @@ const Expense = () => {
     const userDetails = useSelector((store: any)=> store.user);
 
     useEffect(()=> {
-        getAllExpenseForUser();
+        if (userDetails?._id) {
+            getAllExpenseForUser();
+        }
     }, [userDetails])
 
     useEffect(()=> {

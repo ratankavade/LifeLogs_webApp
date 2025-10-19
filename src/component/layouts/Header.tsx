@@ -17,12 +17,12 @@ const Header = () => {
         <div className="flex gap-2">
             {/* <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" /> */}
             <div className="dropdown dropdown-end">
-                <p className='inline'>Welcome {user.userName} </p>
+                <p className='inline'>Welcome {user?.userName} </p>
                 <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                     <div className="w-10 rounded-full">
                     <img
                         alt="Tailwind CSS Navbar component"
-                        src={user.photoUrl} />
+                        src={user?.photoUrl} />
                     </div>
                 </div>
                 <ul
