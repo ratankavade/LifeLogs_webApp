@@ -18,7 +18,7 @@ function App() {
           {user && <div className='mt-20 h-dvh bg-white col-span-2 shadow-sm'>
             <SideMenu />
           </div>}
-          <div className={user ? 'mt-20 col-span-10 p-4' : 'col-span-12'}>
+          <div className={user ? 'mt-20 col-span-10 p-6' : 'col-span-12'}>
             <RouterProvider router={router} />
           </div>
           

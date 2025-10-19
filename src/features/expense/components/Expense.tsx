@@ -1,16 +1,46 @@
-import React, { useState } from 'react'
+import { useEffect, useState } from 'react'
 import api from '../../../app/axios';
+import { useSelector } from 'react-redux';
+import type { ExpenseItem } from '../types/expenseTypes';
 
 const Expense = () => {
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<ExpenseItem>({
+        _id: "",
         name: "",
         type: "",
         amount: 0
     })
+    const [expenseObj, setExpenseObj] = useState<ExpenseItem[]>([]);
+    const [totalAmt, setTotalAmt] = useState(0);
+    const [showForm, setShowForm] = useState(false);
+    const userDetails = useSelector((store: any)=> store.user);
+
+    useEffect(()=> {
+        getAllExpenseForUser();
+    }, [userDetails])
+
+    useEffect(()=> {
+        const total = expenseObj.reduce((acc, curr)=> {
+            acc = acc + curr['amount'];
+            return acc
+        },0)
+        setTotalAmt(total);
+    }, [expenseObj])
+
+    const getAllExpenseForUser = async() => {
+        try{
+            const response = await api.get(`/api/expense/user/${userDetails._id}`);
+            console.log("response.data", response.data);
+            setExpenseObj(response.data);
+        }catch (err){
+            console.error(err);
+        }
+    }
+
     const expenseTypeData = ["Food", "Cosmatices", "Groceries", "Bills", "Fuel"];
 
     const handleFormData = (name: string, value: string) => {
-        setFormData((prev)=> ({
+        setFormData((prev: any)=> ({
             ...prev,
             [name]: value
         }))
@@ -20,21 +50,54 @@ const Expense = () => {
         try{
             const response = await api.post("/api/expense", formData);
             console.log("response.data", response.data);
+            getAllExpenseForUser();
+            setShowForm(false);
+            setFormData({
+                 _id: "",
+                name: "",
+                type: "",
+                amount: 0
+            })
         }catch (err){
             console.error(err);
         }
     }
 
-    console.log("formData", formData)
+    const handleAddNewExpense = () => {
+        setShowForm(true);
+    }
 
   return (
     <>
-    <h1 className='text-xl mb-4'>Expense</h1>
-    <div className='grid grid-cols-2 gap-4'>
-      <div>
-        <h2 className='text-lg mb-4'>Today's Expense</h2>
-        <button className="btn btn-outline btn-accent">Add new</button>
+    <div className='flex justify-between'>
+        <h1 className='text-xl mb-4'>Expense</h1>
+        <button className="btn btn-accent text-white" onClick={handleAddNewExpense}>Add new</button>
+    </div>
+    
+    <div className='grid grid-cols-2 gap-4 mt-4'>
         <div>
+            <div className='flex justify-between'>
+                <h2 className='text-base mb-4 text-gray-700'>Today's Expense</h2>
+                <div className="badge badge-dash badge-accent badge-lg">{totalAmt}</div>
+                {/* <h2 className='text-base mb-4'>{totalAmt}</h2> */}
+            </div>
+            
+            <ul className="list bg-base-100 rounded-box shadow-md border border-gray-200">
+                {expenseObj.map((item)=> (
+                    <li className="list-row flex justify-between px-3 py-2" key={item._id}>
+                        <div>
+                        <div className='text-base capitalize text-gray-700'>{item.name}</div>
+                        <div className="text-xs uppercase font-semibold opacity-60">{item.type}</div>
+                        </div>
+                        <div className='text-lg text-gray-700'>{item.amount}</div>
+                    </li>
+                ))}
+            </ul>
+        </div>
+        <div>
+        
+        
+        {showForm && <div>
             <fieldset className="fieldset">
                 <legend className="fieldset-legend">Description</legend>
                 <input value={formData.name} onChange={(e)=>handleFormData('name', e.target.value)} type="text" className="input w-full" placeholder="Expense name" />
@@ -45,7 +108,7 @@ const Expense = () => {
                     <select className="select w-full" value={formData.type} onChange={(e)=>handleFormData('type', e.target.value)}>
                         <option value="" disabled={true}>Select Type</option>
                         {expenseTypeData.map((item)=> (
-                            <option>{item}</option>
+                            <option key={item}>{item}</option>
                         ))}
                         
                     </select>
@@ -55,61 +118,14 @@ const Expense = () => {
                     <input value={formData.amount} onChange={(e)=>handleFormData('amount', e.target.value)} type="number" className="input w-full" placeholder="Enter amount"/>
                 </fieldset>
             </div>
-            <div className='mt-4 flex justify-center'>
-                <button className="btn btn-accent" onClick={handleAddExpense}>Save</button>
+            <div className='mt-4 flex justify-center gap-3'>
+                <button className="btn btn-soft btn-accent hover:text-white" onClick={handleAddExpense}>Save</button>
+                <button className="btn btn-soft btn-error hover:text-white" onClick={()=> setShowForm(false)}>Cancel</button>
             </div>
+        </div>}
+        
         </div>
-      </div>
-      <div>
-        <ul className="list bg-base-100 rounded-box shadow-md">
-  
-            <li className="p-4 pb-2 text-xs opacity-60 tracking-wide">Most played songs this week</li>
-            
-            <li className="list-row">
-                <div><img className="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/1@94.webp"/></div>
-                <div>
-                <div>Dio Lupa</div>
-                <div className="text-xs uppercase font-semibold opacity-60">Remaining Reason</div>
-                </div>
-                <button className="btn btn-square btn-ghost">
-                <svg className="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor"><path d="M6 3L20 12 6 21 6 3z"></path></g></svg>
-                </button>
-                <button className="btn btn-square btn-ghost">
-                <svg className="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></g></svg>
-                </button>
-            </li>
-            
-            <li className="list-row">
-                <div><img className="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/4@94.webp"/></div>
-                <div>
-                <div>Ellie Beilish</div>
-                <div className="text-xs uppercase font-semibold opacity-60">Bears of a fever</div>
-                </div>
-                <button className="btn btn-square btn-ghost">
-                <svg className="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor"><path d="M6 3L20 12 6 21 6 3z"></path></g></svg>
-                </button>
-                <button className="btn btn-square btn-ghost">
-                <svg className="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></g></svg>
-                </button>
-            </li>
-            
-            <li className="list-row">
-                <div><img className="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/3@94.webp"/></div>
-                <div>
-                <div>Sabrino Gardener</div>
-                <div className="text-xs uppercase font-semibold opacity-60">Cappuccino</div>
-                </div>
-                <button className="btn btn-square btn-ghost">
-                <svg className="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor"><path d="M6 3L20 12 6 21 6 3z"></path></g></svg>
-                </button>
-                <button className="btn btn-square btn-ghost">
-                <svg className="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></g></svg>
-                </button>
-            </li>
-            
-        </ul>
-
-      </div>
+        
     </div>
     </>
     
