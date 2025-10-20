@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as RegisterIndexRouteImport } from './routes/register/index'
 import { Route as ExpencesIndexRouteImport } from './routes/expences/index'
+import { Route as ErrorPageIndexRouteImport } from './routes/errorPage/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,33 +29,42 @@ const ExpencesIndexRoute = ExpencesIndexRouteImport.update({
   path: '/expences/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ErrorPageIndexRoute = ErrorPageIndexRouteImport.update({
+  id: '/errorPage/',
+  path: '/errorPage/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/errorPage': typeof ErrorPageIndexRoute
   '/expences': typeof ExpencesIndexRoute
   '/register': typeof RegisterIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/errorPage': typeof ErrorPageIndexRoute
   '/expences': typeof ExpencesIndexRoute
   '/register': typeof RegisterIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/errorPage/': typeof ErrorPageIndexRoute
   '/expences/': typeof ExpencesIndexRoute
   '/register/': typeof RegisterIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/expences' | '/register'
+  fullPaths: '/' | '/errorPage' | '/expences' | '/register'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/expences' | '/register'
-  id: '__root__' | '/' | '/expences/' | '/register/'
+  to: '/' | '/errorPage' | '/expences' | '/register'
+  id: '__root__' | '/' | '/errorPage/' | '/expences/' | '/register/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ErrorPageIndexRoute: typeof ErrorPageIndexRoute
   ExpencesIndexRoute: typeof ExpencesIndexRoute
   RegisterIndexRoute: typeof RegisterIndexRoute
 }
@@ -82,11 +92,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExpencesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/errorPage/': {
+      id: '/errorPage/'
+      path: '/errorPage'
+      fullPath: '/errorPage'
+      preLoaderRoute: typeof ErrorPageIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ErrorPageIndexRoute: ErrorPageIndexRoute,
   ExpencesIndexRoute: ExpencesIndexRoute,
   RegisterIndexRoute: RegisterIndexRoute,
 }

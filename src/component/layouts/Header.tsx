@@ -1,10 +1,26 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import LOGO from '../../assets/LifeLogs_Logo.png'
+import api from '../../app/axios';
+import { useNavigate } from '@tanstack/react-router';
+import { removeUser } from '../../store/slices/userSlice';
 
 const Header = () => {
     const user = useSelector((store: any) => store.user);
-    console.log("user", user)
+    const dispatch = useDispatch()
+    // console.log("user", user);
+    const navigate = useNavigate()
+
+    const handleLogout = async() => {
+        try{
+            navigate({to: '/'})
+            await api.post("/logout", {}, {withCredentials: true});
+            dispatch(removeUser());
+        }catch(err){
+            console.error(err)
+        }
+    }
+
   return (
     <div className="navbar bg-base-100 shadow-sm fixed z-50 py-0">
         <div className="flex-1">
@@ -35,7 +51,7 @@ const Header = () => {
                     </a>
                     </li>
                     <li><a>Settings</a></li>
-                    <li><a>Logout</a></li>
+                    <li><a onClick={handleLogout}>Logout</a></li>
                 </ul>
             </div>
         </div>
