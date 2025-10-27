@@ -50,7 +50,7 @@ const Register = () => {
         const payload = {"photoUrl": photoUrl, ...userData}
         console.log("payload", payload);
         try{ 
-            const response = await api.post("/register", payload);
+            await api.post("/register", payload);
             setShowToast(true);
             setUserData({
                 userName: "",

@@ -1,4 +1,3 @@
-import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import LOGO from '../../assets/LifeLogs_Logo.png'
 import api from '../../app/axios';
