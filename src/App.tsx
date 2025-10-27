@@ -3,7 +3,6 @@ import './index.css'
 import router from './app/router'
 import { Provider } from 'react-redux'
 import appStore from './store/appStore'
-import Login from './pages/Login'
 
 
 function App() {
