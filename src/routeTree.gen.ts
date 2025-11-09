@@ -10,13 +10,21 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TodosIndexRouteImport } from './routes/todos/index'
 import { Route as RegisterIndexRouteImport } from './routes/register/index'
 import { Route as ExpencesIndexRouteImport } from './routes/expences/index'
 import { Route as ErrorPageIndexRouteImport } from './routes/errorPage/index'
+import { Route as DiaryIndexRouteImport } from './routes/diary/index'
+import { Route as ExpencesPastExpenseRouteImport } from './routes/expences/pastExpense'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TodosIndexRoute = TodosIndexRouteImport.update({
+  id: '/todos/',
+  path: '/todos/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RegisterIndexRoute = RegisterIndexRouteImport.update({
@@ -34,39 +42,83 @@ const ErrorPageIndexRoute = ErrorPageIndexRouteImport.update({
   path: '/errorPage/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DiaryIndexRoute = DiaryIndexRouteImport.update({
+  id: '/diary/',
+  path: '/diary/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExpencesPastExpenseRoute = ExpencesPastExpenseRouteImport.update({
+  id: '/expences/pastExpense',
+  path: '/expences/pastExpense',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/expences/pastExpense': typeof ExpencesPastExpenseRoute
+  '/diary': typeof DiaryIndexRoute
   '/errorPage': typeof ErrorPageIndexRoute
   '/expences': typeof ExpencesIndexRoute
   '/register': typeof RegisterIndexRoute
+  '/todos': typeof TodosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/expences/pastExpense': typeof ExpencesPastExpenseRoute
+  '/diary': typeof DiaryIndexRoute
   '/errorPage': typeof ErrorPageIndexRoute
   '/expences': typeof ExpencesIndexRoute
   '/register': typeof RegisterIndexRoute
+  '/todos': typeof TodosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/expences/pastExpense': typeof ExpencesPastExpenseRoute
+  '/diary/': typeof DiaryIndexRoute
   '/errorPage/': typeof ErrorPageIndexRoute
   '/expences/': typeof ExpencesIndexRoute
   '/register/': typeof RegisterIndexRoute
+  '/todos/': typeof TodosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/errorPage' | '/expences' | '/register'
+  fullPaths:
+    | '/'
+    | '/expences/pastExpense'
+    | '/diary'
+    | '/errorPage'
+    | '/expences'
+    | '/register'
+    | '/todos'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/errorPage' | '/expences' | '/register'
-  id: '__root__' | '/' | '/errorPage/' | '/expences/' | '/register/'
+  to:
+    | '/'
+    | '/expences/pastExpense'
+    | '/diary'
+    | '/errorPage'
+    | '/expences'
+    | '/register'
+    | '/todos'
+  id:
+    | '__root__'
+    | '/'
+    | '/expences/pastExpense'
+    | '/diary/'
+    | '/errorPage/'
+    | '/expences/'
+    | '/register/'
+    | '/todos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ExpencesPastExpenseRoute: typeof ExpencesPastExpenseRoute
+  DiaryIndexRoute: typeof DiaryIndexRoute
   ErrorPageIndexRoute: typeof ErrorPageIndexRoute
   ExpencesIndexRoute: typeof ExpencesIndexRoute
   RegisterIndexRoute: typeof RegisterIndexRoute
+  TodosIndexRoute: typeof TodosIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -76,6 +128,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/todos/': {
+      id: '/todos/'
+      path: '/todos'
+      fullPath: '/todos'
+      preLoaderRoute: typeof TodosIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/register/': {
@@ -99,14 +158,31 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ErrorPageIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/diary/': {
+      id: '/diary/'
+      path: '/diary'
+      fullPath: '/diary'
+      preLoaderRoute: typeof DiaryIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/expences/pastExpense': {
+      id: '/expences/pastExpense'
+      path: '/expences/pastExpense'
+      fullPath: '/expences/pastExpense'
+      preLoaderRoute: typeof ExpencesPastExpenseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ExpencesPastExpenseRoute: ExpencesPastExpenseRoute,
+  DiaryIndexRoute: DiaryIndexRoute,
   ErrorPageIndexRoute: ErrorPageIndexRoute,
   ExpencesIndexRoute: ExpencesIndexRoute,
   RegisterIndexRoute: RegisterIndexRoute,
+  TodosIndexRoute: TodosIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -3,4 +3,5 @@ export type ExpenseItem = {
     name: string; 
     type: string; 
     amount: number; 
+    createdAt: string;
 }
