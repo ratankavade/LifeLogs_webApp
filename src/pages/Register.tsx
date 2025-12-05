@@ -175,7 +175,7 @@ const Register = () => {
                         </fieldset>
                         <fieldset className="fieldset">
                             <legend className="fieldset-legend">Email</legend>
-                            <input value={userData.email} onChange={(e)=> handleUserData('email', e.target.value)} type="text" className="input w-full" placeholder="Enter your email" />
+                            <input value={userData.email} onChange={(e)=> handleUserData('email', e.target.value.toLowerCase())} type="text" className="input w-full" placeholder="Enter your email" />
                             {emailError && <p className="label text-red-300">{emailError}</p>}
                         </fieldset>
                         <fieldset className="fieldset relative">

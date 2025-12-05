@@ -39,7 +39,7 @@ const Login = () => {
 
 
     const handleEmail = (e: any) => {
-        setEmail(e.target.value)
+        setEmail(e.target.value.toLowerCase());
 
         if (!validateEmail(e.target.value)) {
         setEmailError("Enter valid email address");

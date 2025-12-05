@@ -12,7 +12,7 @@
 - design and develop register screen 
 - integrate register api
 - create common toast alert message component
-- create Rdus store
+- create Redux store
 - add user into store
 - create Header and left menu
 - show header and left menu only user is present in store

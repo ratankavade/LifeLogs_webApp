@@ -18,7 +18,8 @@
     "daisyui": "^5.1.23",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "react-redux": "^9.2.0"
+    "react-redux": "^9.2.0",
+    "redux-persist": "^6.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
@@ -26,6 +27,7 @@
     "@tanstack/router-plugin": "^1.132.7",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
+    "@types/redux-persist": "^4.0.0",
     "@vitejs/plugin-react": "^5.0.3",
     "autoprefixer": "^10.4.21",
     "eslint": "^9.36.0",

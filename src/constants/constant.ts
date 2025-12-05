@@ -1,0 +1,40 @@
+export const EXPENSE_TYPE_DATA = [
+    "Food",
+    "Groceries",
+    "Bills",
+    "Fuel",
+    "Shopping",
+    "Stationery",
+    "Cosmetics",
+    "Healthcare",
+    "Entertainment",
+    "Travel",
+    "EMI / Loan",
+    "Education",
+    "Gifts",
+    "Electronics",
+    "Others"
+];
+
+export const MOOD_TYPES = [
+    "Happy",
+    "Excited",
+    "Grateful",
+    "Calm",
+    "Relaxed",
+    "Productive",
+    "Focused",
+    "Motivated",
+    "Neutral",
+    "Tired",
+    "Stressed",
+    "Anxious",
+    "Sad",
+    "Lonely",
+    "Overwhelmed",
+    "Frustrated",
+    "Angry",
+    "Irritated",
+    "Bored",
+    "Sick"
+];

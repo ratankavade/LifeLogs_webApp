@@ -1,2 +1,23 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+.notebook-textarea {
+  font-size: 16px;
+
+  line-height: 30px;         /* perfectly aligned line height */
+  padding-top: 30px;         /* start text on first line */
+  padding-left: 16px;        /* normal padding */
+
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 29px,
+    rgba(0,0,0,0.12) 30px     /* line color */
+  );
+
+  background-size: 100% 30px; /* line spacing */
+  background-repeat: repeat;
+
+  outline: none;
+  border: none;
+}
