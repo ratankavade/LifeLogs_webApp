@@ -1,10 +1,13 @@
 import { useState } from 'react'
 import diaryBg from '../../../assets/dailyDiary_bg.png'
 import { MOOD_TYPES } from '../../../constants/constant'
+import api from '../../../app/axios'
+
+const today = new Date().toISOString().split("T")[0];
 
 const TodaysDiary = () => {
     const [diaryObj, setDiaryObj] = useState({
-        date: "",
+        date: today,
         mood: "Happy",
         content: ""
     })
@@ -17,6 +20,20 @@ const TodaysDiary = () => {
     }
 
     console.log("diaryObj", diaryObj);
+
+    const handleSaveDiary = async() => {
+        try{
+            const response = await api.post("/api/diary", diaryObj);
+            console.log("Diary content", response.data);
+            setDiaryObj({
+                date: today,
+                mood: "Happy",
+                content: ""
+            })
+        }catch(err) {
+            console.error(err);
+        }
+    }
 
   return (
     <>
@@ -40,10 +57,14 @@ const TodaysDiary = () => {
                     <textarea value={diaryObj.content} onChange={(e)=> handleDiaryObj('content', e.target.value)} className="notebook-textarea textarea textarea-ghost w-full h-100 resize-none" placeholder="Write your diary..."></textarea>
                 </div>
                 <div className='mt-4 flex justify-end items-end pb-1 gap-3'>
-                    <button className="btn btn-soft btn-accent hover:text-white">
+                    <button className="btn btn-soft btn-accent hover:text-white" onClick={handleSaveDiary}>
                         Save
                     </button>
-                    <button className="btn btn-soft btn-error hover:text-white">
+                    <button className="btn btn-soft btn-error hover:text-white" onClick={()=> setDiaryObj({
+                        date: today,
+                        mood: "Happy",
+                        content: ""
+                    })}>
                         Clear
                     </button>
                 </div>
