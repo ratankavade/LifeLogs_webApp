@@ -1,6 +1,6 @@
-import wallpaper from "../assets/wallpaper.png"
-import icon from "../assets/icon.png"
-import profileImg from "../assets/profileImg.png"
+import wallpaper from "../assets/wallpaper.webp"
+import icon from "../assets/icon.webp"
+import profileImg from "../assets/profileImg.webp"
 import { useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import api from "../app/axios";
@@ -163,7 +163,7 @@ const Register = () => {
 
                                 {/* Info Text */}
                                 <p className="text-xs text-center text-gray-400 mt-4">
-                                You can edit your profile picture or upload a new one (.JPG or .PNG)
+                                You can edit your profile picture or upload a new one.
                                 </p>
                             </div>
                         </div>

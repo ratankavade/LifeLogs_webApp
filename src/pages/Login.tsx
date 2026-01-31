@@ -1,5 +1,5 @@
-import wallpaper from "../assets/wallpaper.png"
-import icon from "../assets/icon.png"
+import wallpaper from "../assets/wallpaper.webp"
+import icon from "../assets/icon.webp"
 import { useState } from "react"
 import api from "../app/axios";
 import { Link, useNavigate } from "@tanstack/react-router";

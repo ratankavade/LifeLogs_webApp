@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import diaryBg from '../../../assets/dailyDiary_bg.png'
+import diaryBg from '../../../assets/dailyDiary_bg.webp'
 import { MOOD_TYPES } from '../../../constants/constant'
 import api from '../../../app/axios'
 

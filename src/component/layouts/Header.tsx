@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
-import LOGO from '../../assets/LifeLogs_Logo.png'
+import LOGO from '../../assets/LifeLogs_Logo.webp'
 import api from '../../app/axios';
 import { useNavigate } from '@tanstack/react-router';
 import { removeUser } from '../../store/slices/userSlice';
